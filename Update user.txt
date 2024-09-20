@@ -1,0 +1,35 @@
+ 
+ <?php
+require_once('functions/crud-functions.php');
+
+$id = $_GET['id'];
+$user = getUserById($id);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+
+    updateUser($id, $name, $email);
+
+    header('Location: index.php');
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update User</title>
+</head>
+<body>
+    <h2>Update User</h2>
+    <form method="POST" action="update.php?id=<?php echo $user['id']; ?>">
+        <label for="name">Name</label>
+        <input type="text" name="name" value="<?php echo $user['name']; ?>" required><br>
+        
+        <label for="email">Email</label>
+        <input type="email" name="email" value="<?php echo $user['email']; ?>" required><br>
+        
+        <input type="submit" value="Update User">
+    </form>
+</body>
+</html>

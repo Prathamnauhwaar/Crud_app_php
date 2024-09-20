@@ -1,0 +1,45 @@
+
+ <?php
+require_once('../config/database.php');
+
+// Create a new user
+function createUser($name, $email) {
+    global $conn;
+    $sql = "INSERT INTO users (name, email) VALUES (:name, :email)";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(['name' => $name, 'email' => $email]);
+}
+
+// Fetch all users
+function getUsers() {
+    global $conn;
+    $sql = "SELECT * FROM users";
+    $stmt = $conn->query($sql);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Get a single user by ID
+function getUserById($id) {
+    global $conn;
+    $sql = "SELECT * FROM users WHERE id = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(['id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Update user
+function updateUser($id, $name, $email) {
+    global $conn;
+    $sql = "UPDATE users SET name = :name, email = :email WHERE id = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(['name' => $name, 'email' => $email, 'id' => $id]);
+}
+
+// Delete user
+function deleteUser($id) {
+    global $conn;
+    $sql = "DELETE FROM users WHERE id = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(['id' => $id]);
+}
+?>
